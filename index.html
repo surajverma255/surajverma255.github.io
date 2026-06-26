@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suraj Verma — SDET Lead</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:        #080C12;
+      --surface:   #0E1520;
+      --border:    #1C2840;
+      --accent:    #00E5A0;    /* electric mint — the signature pulse */
+      --accent2:   #0070F3;    /* electric blue */
+      --muted:     #3D5070;
+      --text:      #C8D8F0;
+      --headline:  #EEF4FF;
+      --mono:      'JetBrains Mono', monospace;
+      --sans:      'Space Grotesk', sans-serif;
+      --body:      'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      backdrop-filter: blur(20px);
+      background: rgba(8, 12, 18, 0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* The signature element: an animated circuit-board grid pulse */
+    .grid-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.18;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      color: var(--headline);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-family: var(--sans);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #080C12;
+    }
+
+    .btn-primary:hover {
+      background: #00ffa8;
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: var(--sans);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--headline);
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 0 2.5rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 180px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item:first-child::before { top: 1.2rem; }
+    .timeline-item:last-child::before  { bottom: calc(100% - 1.2rem); top: 0; }
+
+    .tl-meta {
+      padding: 2rem 0;
+      text-align: right;
+    }
+
+    .tl-period {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+    }
+
+    .tl-company {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 0.4rem;
+    }
+
+    .tl-body {
+      padding: 2rem 0 2rem 2.5rem;
+      position: relative;
+    }
+
+    .tl-dot {
+      position: absolute;
+      left: calc(2.5rem - 5px - 1px);
+      top: 2.45rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .tl-role {
+      font-family: var(--sans);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--headline);
+      margin-bottom: 1rem;
+    }
+
+    .tl-highlights {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tl-highlights li {
+      font-size: 0.9rem;
+      color: var(--text);
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.55;
+    }
+
+    .tl-highlights li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+      top: 0.15rem;
+    }
+
+    .impact-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(0, 229, 160, 0.08);
+      border: 1px solid rgba(0, 229, 160, 0.2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+      letter-spacing: 0.05em;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .skill-card-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text);
+      background: rgba(200, 216, 240, 0.05);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+    }
+
+    /* ── AWARDS ── */
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .award-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .award-card:hover { border-color: var(--accent); }
+
+    .award-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .award-org {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .award-name {
+      font-family: var(--sans);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--headline);
+      margin-bottom: 0.75rem;
+    }
+
+    .award-desc {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      text-align: center;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .project-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .project-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: rgba(0, 229, 160, 0.1);
+      border: 1px solid rgba(0, 229, 160, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .project-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent);
+    }
+
+    .project-arrow {
+      opacity: 0;
+      transition: opacity 0.2s;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    .project-card:hover .project-arrow { opacity: 1; }
+
+    .project-category {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .project-name {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--headline);
+      line-height: 1.2;
+    }
+
+    .project-desc {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .project-stack .tag {
+      font-size: 0.68rem;
+      background: rgba(0, 112, 243, 0.08);
+      border-color: rgba(0, 112, 243, 0.2);
+      color: #6EB0FF;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0 4rem;
+      width: calc(100% - 8rem);
+    }
+
+    /* ── SCROLL FADE ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 6rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero-stats { gap: 1.5rem; }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+      .timeline-item::before { display: none; }
+      .tl-meta { padding: 2rem 0 0; text-align: left; }
+      .tl-body { padding: 0.5rem 0 2rem; }
+      .tl-dot { display: none; }
+
+      .divider { margin: 0 1.5rem; width: calc(100% - 3rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">SV // SDET_LEAD</span>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas class="grid-canvas" id="gridCanvas"></canvas>
+    <div class="hero-inner">
+      <div class="hero-tag">Quality Engineering · Test Automation · 10 Years</div>
+      <h1>Suraj<br><span>Verma</span></h1>
+      <p class="hero-sub">
+        SDET Lead architecting enterprise-grade automation frameworks for high-frequency trading, fintech, and large-scale SaaS. Currently shaping quality engineering at Standard Chartered Bank.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">65%</span>
+          <span class="stat-label">Regression time cut</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">500K+</span>
+          <span class="stat-label">Users covered</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">10 yrs</span>
+          <span class="stat-label">Engineering depth</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">3×</span>
+          <span class="stat-label">Award winner</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="visit-count">—</span>
+          <span class="stat-label">Portfolio views</span>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:surajverma255@gmail.com">Get in Touch</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/suraj-verma-5a3961b8" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/surajverma255" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-eyebrow">Career</div>
+    <h2>Experience</h2>
+
+    <div class="timeline">
+
+      <!-- SCB -->
+      <div class="timeline-item fade-in">
+        <div class="tl-meta">
+          <div class="tl-period">Jun 2025 — Present<br>Bengaluru, India</div>
+          <div class="tl-company">Standard Chartered</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-dot"></div>
+          <div class="tl-role">SDET Lead</div>
+          <ul class="tl-highlights">
+            <li>Owned end-to-end automation strategy for the S2BX FX trading platform — a high-frequency system enforcing &lt;100µs message latency and 99.99% uptime across global markets.</li>
+            <li>Automated validation for 500K+ active users across full retail lifecycle: onboarding → transaction → post-trade reconciliation. <span class="impact-tag">65% faster regression</span></li>
+            <li>Centralized automation tooling platform adopted by 8+ product teams for UI, API, and integration testing on Kubernetes with parallel containerised runs.</li>
+            <li>Architected cross-platform mobile automation (Appium + Java) for Android/iOS banking apps — 95%+ coverage on revenue-critical journeys. <span class="impact-tag">70% less manual effort</span></li>
+            <li>Built an AI-powered pipeline auto-converting Jira acceptance criteria into executable Cucumber/BDD scenarios via LLM tooling. <span class="impact-tag">200+ hrs saved/quarter</span></li>
+            <li>Pioneered org-wide adoption of Cursor IDE across 4 product teams — 35% faster test authoring, 50% less boilerplate.</li>
+            <li>Integrated Grafana, Prometheus, and ELK Stack into QA pipelines for real-time observability. <span class="impact-tag">50% faster MTTD</span></li>
+            <li>Won the Bar Raiser Award for engineering a full-stack Unix process monitoring tool — real-time CPU/memory dashboards, one-click service controls — adopted across QA, Infra, and Dev teams.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Morgan Stanley -->
+      <div class="timeline-item fade-in">
+        <div class="tl-meta">
+          <div class="tl-period">Aug 2022 — May 2025<br>Bengaluru, India</div>
+          <div class="tl-company">Morgan Stanley</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-dot"></div>
+          <div class="tl-role">Senior Automation Developer</div>
+          <ul class="tl-highlights">
+            <li>Built a zero-to-production automation platform (Java/Selenium/TestNG/RestAssured) from scratch — 800+ test cases, adopted by 6 engineering squads in the first quarter. <span class="impact-tag">3 days → 4 hours</span></li>
+            <li>Enhanced Cypress/WebdriverIO with TypeScript utility libraries — 30% faster test authoring velocity across the entire QA team.</li>
+            <li>Configured AWS EC2 Auto Scaling for parallelised cross-browser/device UI suites via Jenkins. <span class="impact-tag">25% lower cloud cost/run</span></li>
+            <li>Led JMeter performance testing — identified 3 critical bottlenecks that would have caused production degradation at peak trading volumes.</li>
+            <li>Built a Jira-XRAY bidirectional integration tool that auto-updated test results during CI execution. <span class="impact-tag">8+ hrs saved/week</span></li>
+            <li>Received the Star Award for exceptional contribution to quality engineering platform uplift across the equities division.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Siemens -->
+      <div class="timeline-item fade-in">
+        <div class="tl-meta">
+          <div class="tl-period">Aug 2020 — Jul 2022<br>Pune, India</div>
+          <div class="tl-company">Siemens Technology</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-dot"></div>
+          <div class="tl-role">Software Test Specialist</div>
+          <ul class="tl-highlights">
+            <li>Led full migration from Protractor → Cypress JavaScript, stabilising 250+ test cases at 98% pass rate — eliminated the need for a dedicated manual regression tester.</li>
+            <li>Designed the (N-1) Sprint InSprint Automation approach, reducing escape defect rate by 35% by embedding test authoring one sprint ahead of delivery.</li>
+            <li>Delivered a Cypress POC that prevented an unnecessary external hire. <span class="impact-tag">₹18L+ saved annually</span></li>
+            <li>Awarded Best Debutant for exceptional ownership and measurable cost and quality impact in year one.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Cognizant -->
+      <div class="timeline-item fade-in">
+        <div class="tl-meta">
+          <div class="tl-period">Jun 2019 — Aug 2020<br>Kolkata, India</div>
+          <div class="tl-company">Cognizant</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-dot"></div>
+          <div class="tl-role">Programmer Analyst</div>
+          <ul class="tl-highlights">
+            <li>Built data-driven UI and API test automation for EMV smart card and payment processing (Java, Selenium, RestAssured, ReadyAPI).</li>
+            <li>Replaced static test data with dynamic GET API calls for hotel reservation flows — 60% reduction in maintenance effort and higher cross-environment reliability.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Infosys -->
+      <div class="timeline-item fade-in">
+        <div class="tl-meta">
+          <div class="tl-period">Aug 2016 — May 2019<br>Bhubaneswar, India</div>
+          <div class="tl-company">Infosys</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-dot"></div>
+          <div class="tl-role">Test Engineer</div>
+          <ul class="tl-highlights">
+            <li>Owned API validation and daily automation for a US Healthcare platform serving 50K+ patients — structured defect reports delivered within a 4-hour SLA with 99% on-time consistency.</li>
+            <li>Built and maintained functional test strategies, plans, and scripts for end-to-end Healthcare workflows in an InSprint agile model.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-eyebrow">Toolkit</div>
+    <h2>Technical Skills</h2>
+
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">Java</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">C#</span>
+          <span class="tag">Shell Script</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Test Frameworks</div>
+        <div class="skill-tags">
+          <span class="tag">Selenium</span>
+          <span class="tag">Cypress</span>
+          <span class="tag">WebdriverIO</span>
+          <span class="tag">Appium</span>
+          <span class="tag">RestAssured</span>
+          <span class="tag">TestNG</span>
+          <span class="tag">JUnit</span>
+          <span class="tag">Cucumber/BDD</span>
+          <span class="tag">PyTest</span>
+          <span class="tag">SpecFlow</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Cloud & DevOps</div>
+        <div class="skill-tags">
+          <span class="tag">AWS EC2</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Kubernetes</span>
+          <span class="tag">Helm</span>
+          <span class="tag">Jenkins</span>
+          <span class="tag">GitLab CI</span>
+          <span class="tag">CI/CD Pipelines</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Observability</div>
+        <div class="skill-tags">
+          <span class="tag">Grafana</span>
+          <span class="tag">Prometheus</span>
+          <span class="tag">ELK Stack</span>
+          <span class="tag">Splunk</span>
+          <span class="tag">Distributed Tracing</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Performance</div>
+        <div class="skill-tags">
+          <span class="tag">JMeter</span>
+          <span class="tag">Aeron</span>
+          <span class="tag">JVM Metrics</span>
+          <span class="tag">Load Testing</span>
+          <span class="tag">Latency Benchmarking</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Messaging & Data</div>
+        <div class="skill-tags">
+          <span class="tag">Kafka</span>
+          <span class="tag">KDB</span>
+          <span class="tag">FIX/FAST Protocol</span>
+          <span class="tag">REST</span>
+          <span class="tag">GraphQL</span>
+          <span class="tag">SOAP</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">AI & Productivity</div>
+        <div class="skill-tags">
+          <span class="tag">AI Test Generation</span>
+          <span class="tag">RAG</span>
+          <span class="tag">MCP Servers</span>
+          <span class="tag">Cursor IDE</span>
+          <span class="tag">LLM Tooling</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">AI Agents</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-label">Quality Practices</div>
+        <div class="skill-tags">
+          <span class="tag">Shift-Left Testing</span>
+          <span class="tag">Contract Testing (Pact)</span>
+          <span class="tag">DORA Metrics</span>
+          <span class="tag">Schema Validation</span>
+          <span class="tag">System Design</span>
+          <span class="tag">Quality Architecture</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-eyebrow">Open Source</div>
+    <h2>Personal Projects</h2>
+
+    <div class="projects-grid">
+
+      <!-- KVortex -->
+      <a class="project-card fade-in" href="https://github.com/surajverma255/kvortex-cpp" target="_blank" rel="noopener">
+        <div class="project-card-header">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/>
+              <line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+            </svg>
+          </div>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-category">Systems · C++</div>
+        <div class="project-name">KVortex — In-Memory Key-Value Store</div>
+        <p class="project-desc">
+          A Redis-inspired multithreaded key-value store built from scratch in C++ using TCP sockets. Supports SET / GET / DEL commands, handles concurrent clients via per-thread connections, and protects shared state with mutex-guarded <code>unordered_map</code>. Built to deeply understand how real-time data stores work at the networking and concurrency layer.
+        </p>
+        <div class="project-stack">
+          <span class="tag">C++</span>
+          <span class="tag">CMake</span>
+          <span class="tag">TCP Sockets</span>
+          <span class="tag">Multithreading</span>
+          <span class="tag">Mutex</span>
+          <span class="tag">System Design</span>
+        </div>
+      </a>
+
+      <!-- Spotify Test Framework -->
+      <a class="project-card fade-in" href="https://github.com/surajverma255/SpotiyServerSideTest" target="_blank" rel="noopener">
+        <div class="project-card-header">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9S3 16.97 3 12 7.03 3 12 3s9 4.03 9 9z"/>
+            </svg>
+          </div>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-category">Test Automation · Java</div>
+        <div class="project-name">Spotify Server-Side Automation Framework</div>
+        <p class="project-desc">
+          A production-grade API test framework for Spotify's server-side endpoints — tracks, artists, and search — built with RestAssured + TestNG. Features parallel execution, dynamic POJO mapping via Jackson, Allure reporting with visual dashboards, Docker-containerised runs, and a full GitHub Actions CI/CD pipeline with artifact upload on every commit.
+        </p>
+        <div class="project-stack">
+          <span class="tag">Java</span>
+          <span class="tag">RestAssured</span>
+          <span class="tag">TestNG</span>
+          <span class="tag">Docker</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Allure</span>
+          <span class="tag">Maven</span>
+        </div>
+      </a>
+
+      <!-- ClearMargin SaaS -->
+      <a class="project-card fade-in" href="https://github.com/surajverma255/clear_margin_SaaS" target="_blank" rel="noopener">
+        <div class="project-card-header">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-category">Full-Stack · SaaS · TypeScript</div>
+        <div class="project-name">ClearMargin — B2B SaaS for E-Commerce Sellers</div>
+        <p class="project-desc">
+          A B2B SaaS platform helping e-commerce sellers manage profit margins and selling metrics across multiple marketplaces from a single unified dashboard. Built with Next.js (App Router), TypeScript, Tailwind CSS, and shadcn/ui — demonstrating full-stack product development skills beyond just testing.
+        </p>
+        <div class="project-stack">
+          <span class="tag">Next.js</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Tailwind CSS</span>
+          <span class="tag">React</span>
+          <span class="tag">SaaS Architecture</span>
+        </div>
+      </a>
+
+      <!-- API Dev -->
+      <a class="project-card fade-in" href="https://github.com/surajverma255/API_Dev" target="_blank" rel="noopener">
+        <div class="project-card-header">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+          </div>
+          <span class="project-arrow">↗</span>
+        </div>
+        <div class="project-category">Backend · Java · Spring Boot</div>
+        <div class="project-name">Spring Boot REST API Development</div>
+        <p class="project-desc">
+          A foundational Spring Boot project demonstrating first-principles API development in Java — GET and POST endpoints with proper controller/service separation. Built to understand the server-side layer that SDET engineers test, giving deeper insight into how APIs are structured, routed, and serialised before writing tests against them.
+        </p>
+        <div class="project-stack">
+          <span class="tag">Java</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Maven</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- AWARDS -->
+  <section id="awards">
+    <div class="section-eyebrow">Recognition</div>
+    <h2>Awards</h2>
+
+    <div class="awards-grid">
+      <div class="award-card fade-in">
+        <div class="award-org">Standard Chartered · 2026</div>
+        <div class="award-name">Bar Raiser Award</div>
+        <div class="award-desc">Engineered a full-stack Unix process monitoring tool adopted across QA, Infrastructure, and Development teams — delivering real-time CPU/memory/PID dashboards, one-click service management, and an automated 24-hour CPU breach recorder.</div>
+      </div>
+      <div class="award-card fade-in">
+        <div class="award-org">Morgan Stanley · Dec 2024</div>
+        <div class="award-name">Star Award</div>
+        <div class="award-desc">Outstanding contribution to quality engineering platform uplift and measurable improvement in delivery velocity across the equities technology division, including enabling AWS EC2 Auto Scaling for cross-browser and cross-device parallel testing.</div>
+      </div>
+      <div class="award-card fade-in">
+        <div class="award-org">Siemens Technology · Dec 2020</div>
+        <div class="award-name">Best Debutant Award</div>
+        <div class="award-desc">Recognised in the first year for exceptional ownership — the Cypress migration POC prevented an external hire, delivered measurable quality improvements, and saved the organisation ₹18L+ in annual recruitment costs.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-eyebrow">Connect</div>
+    <h2>Let's talk quality engineering.</h2>
+    <p style="max-width:500px; margin: 0 auto 1rem; color: var(--muted); font-size:0.95rem;">
+      Open to senior SDET, Test Architect, and Quality Engineering Lead roles in fintech, trading platforms, and large-scale SaaS.
+    </p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:surajverma255@gmail.com">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        surajverma255@gmail.com
+      </a>
+
+      <a class="contact-link" href="https://linkedin.com/in/suraj-verma-5a3961b8" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-link" href="https://github.com/surajverma255" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Suraj Verma · Bangalore, India · Built with HTML/CSS/JS · Hosted on GitHub Pages</span>
+  </footer>
+
+  <script>
+    /* ── ANIMATED GRID CANVAS (signature element) ── */
+    (function () {
+      const canvas = document.getElementById('gridCanvas');
+      const ctx = canvas.getContext('2d');
+      const CELL = 48;
+      const ACCENT = '#00E5A0';
+      let W, H, cols, rows, pulses = [];
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+        cols = Math.ceil(W / CELL) + 1;
+        rows = Math.ceil(H / CELL) + 1;
+      }
+
+      function spawnPulse() {
+        pulses.push({
+          x: Math.floor(Math.random() * cols) * CELL,
+          y: Math.floor(Math.random() * rows) * CELL,
+          r: 0,
+          maxR: CELL * (3 + Math.random() * 5),
+          alpha: 0.8
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = 'rgba(28,40,64,0.8)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= cols; x++) {
+          ctx.beginPath();
+          ctx.moveTo(x * CELL, 0);
+          ctx.lineTo(x * CELL, H);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= rows; y++) {
+          ctx.beginPath();
+          ctx.moveTo(0, y * CELL);
+          ctx.lineTo(W, y * CELL);
+          ctx.stroke();
+        }
+
+        pulses = pulses.filter(p => p.alpha > 0.01);
+        for (const p of pulses) {
+          const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          grad.addColorStop(0, `rgba(0,229,160,${p.alpha * 0.4})`);
+          grad.addColorStop(1, 'rgba(0,229,160,0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = `rgba(0,229,160,${p.alpha * 0.6})`;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.stroke();
+
+          p.r   += 1.5;
+          p.alpha *= 0.97;
+        }
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      setInterval(spawnPulse, 900);
+      spawnPulse();
+      draw();
+    })();
+
+    /* ── SCROLL FADE-IN ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    /* ── VISITOR COUNTER via hits.sh ── */
+    (async function () {
+      try {
+        const res = await fetch('https://hits.sh/surajverma255.github.io.json');
+        const data = await res.json();
+        const el = document.getElementById('visit-count');
+        if (el && data.count !== undefined) {
+          // animate count up
+          const target = parseInt(data.count, 10);
+          let current = Math.max(0, target - 30);
+          const step = () => {
+            if (current < target) {
+              current = Math.min(current + Math.ceil((target - current) / 8 + 1), target);
+              el.textContent = current.toLocaleString();
+              requestAnimationFrame(step);
+            } else {
+              el.textContent = target.toLocaleString();
+            }
+          };
+          step();
+        }
+      } catch (e) {
+        const el = document.getElementById('visit-count');
+        if (el) el.textContent = '—';
+      }
+    })();
+  </script>
+</body>
+</html>
